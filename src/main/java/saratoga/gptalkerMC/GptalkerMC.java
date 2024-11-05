@@ -20,7 +20,13 @@ public class GptalkerMC extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        getLogger().info("GptalkerMC has been enabled!");
         getServer().getPluginManager().registerEvents(this, this);
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().info("GptalkerMC has been disabled!");
     }
 
     @EventHandler
@@ -45,13 +51,14 @@ public class GptalkerMC extends JavaPlugin implements Listener {
                     message, okhttp3.MediaType.parse("application/json"));
 
             Request request = new Request.Builder()
-                    .url("http://localhost:5000/ollama/chat") // LLM endpoint
+                    .url("http://localhost:11434/ollama/chat") // LLM endpoint
                     .post(body)
                     .build();
 
             Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (IOException e) {
+            getLogger().severe("Error connecting to LLM: " + e.getMessage());
             e.printStackTrace();
             return "Error connecting to LLM.";
         }
