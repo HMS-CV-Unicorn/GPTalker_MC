@@ -14,7 +14,7 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-public class ChatPlugin extends JavaPlugin implements Listener {
+public class GptalkerMC extends JavaPlugin implements Listener {
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -28,7 +28,7 @@ public class ChatPlugin extends JavaPlugin implements Listener {
         String playerMessage = event.getMessage();
         event.getPlayer().sendMessage("Thinking...");
 
-        // Asynchronous request to OLLAMA API
+        // Asynchronous request to LLM API
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             String response = fetchLLMResponse(playerMessage);
             if (response != null) {
@@ -45,16 +45,15 @@ public class ChatPlugin extends JavaPlugin implements Listener {
                     message, okhttp3.MediaType.parse("application/json"));
 
             Request request = new Request.Builder()
-                    .url("http://localhost:5000/ollama/chat") // OLLAMAのエンドポイント
+                    .url("http://localhost:5000/ollama/chat") // LLM endpoint
                     .post(body)
                     .build();
 
             Response response = client.newCall(request).execute();
             return response.body().string();
-        } catch (IOException e) { //接続に失敗した場合
+        } catch (IOException e) {
             e.printStackTrace();
             return "Error connecting to LLM.";
         }
     }
 }
-
