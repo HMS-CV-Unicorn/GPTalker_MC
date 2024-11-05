@@ -1,0 +1,6 @@
+name: gptalker-MC
+version: '1.0-SNAPSHOT'
+main: saratoga.gptalkerMC.GptalkerMC
+api-version: '1.20'
+authors: [ saratoga ]
+description: You are not alone! talk with GPT in your minecraft server!
